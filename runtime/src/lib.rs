@@ -198,6 +198,21 @@ impl frame_system::Config for Runtime {
 	type MaxConsumers = frame_support::traits::ConstU32<16>;
 }
 
+parameter_types! {
+	pub const SupersigPalletId: PalletId = PalletId(*b"id/susig");
+	pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
+}
+
+impl pallet_supersig::Config for Runtime {
+	type Event = Event;
+    type Currency = Balances;
+	type PalletId = SupersigPalletId;
+    type Call = Call;
+	type PreimageByteDeposit = SupersigPreimageByteDeposit;
+    type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
+
+}
+
 impl pallet_randomness_collective_flip::Config for Runtime {}
 
 impl pallet_aura::Config for Runtime {
@@ -283,6 +298,8 @@ construct_runtime!(
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
+		// Include Supersig into construct_runtime.
+		Supersig: pallet_supersig,
 	}
 );
 
