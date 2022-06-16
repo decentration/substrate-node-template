@@ -6,6 +6,7 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use pallet_supersig::PalletId;
 use pallet_grandpa::{
 	fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList,
 };
@@ -44,7 +45,7 @@ pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill};
 
 /// Import the template pallet.
-pub use pallet_template;
+/// pub use pallet_template;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -200,7 +201,9 @@ impl frame_system::Config for Runtime {
 
 parameter_types! {
 	pub const SupersigPalletId: PalletId = PalletId(*b"id/susig");
-	pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
+	//pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
+    pub const SupersigDepositPerByte: Balance = 1;
+    pub const SupersigMaxAccountsPerTransaction: u32 = 10;
 }
 
 impl pallet_supersig::Config for Runtime {
@@ -208,8 +211,10 @@ impl pallet_supersig::Config for Runtime {
     type Currency = Balances;
 	type PalletId = SupersigPalletId;
     type Call = Call;
-	type PreimageByteDeposit = SupersigPreimageByteDeposit;
+	//type PreimageByteDeposit = SupersigPreimageByteDeposit;
     type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
+	type DepositPerByte = SupersigDepositPerByte;
+	type MaxAccountsPerTransaction = SupersigMaxAccountsPerTransaction;
 
 }
 
@@ -276,10 +281,10 @@ impl pallet_sudo::Config for Runtime {
 	type Call = Call;
 }
 
-/// Configure the pallet-template in pallets/template.
-impl pallet_template::Config for Runtime {
-	type Event = Event;
-}
+// Configure the pallet-template in pallets/template.
+//impl pallet_template::Config for Runtime {
+//	type Event = Event;
+//}
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -297,7 +302,8 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment,
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
-		TemplateModule: pallet_template,
+		//TemplateModule: pallet_template,
+
 		// Include Supersig into construct_runtime.
 		Supersig: pallet_supersig,
 	}
