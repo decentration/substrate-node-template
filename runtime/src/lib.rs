@@ -218,6 +218,8 @@ impl pallet_supersig::Config for Runtime {
 
 }
 
+
+
 impl pallet_randomness_collective_flip::Config for Runtime {}
 
 impl pallet_aura::Config for Runtime {
@@ -483,6 +485,13 @@ impl_runtime_apis! {
 		) -> pallet_transaction_payment::FeeDetails<Balance> {
 			TransactionPayment::query_fee_details(uxt, len)
 		}
+	}
+
+	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
+		fn get_account_supersigs(who: AccountId) -> Vec<u128> {
+			Supersig::get_account_supersigs(who)
+		}
+	
 	}
 
 	#[cfg(feature = "runtime-benchmarks")]
