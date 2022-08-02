@@ -3700,6 +3700,7 @@ dependencies = [
  "frame-system",
  "jsonrpsee",
  "node-template-runtime",
+ "pallet-supersig-rpc",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc",
  "sc-basic-authorship",
@@ -4054,8 +4055,8 @@ dependencies = [
 
 [[package]]
 name = "pallet-supersig"
-version = "1.1.1"
-source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.24#ea7d981a1b6dfd91fc867475650f0350fb2967f7"
+version = "1.1.0"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4069,9 +4070,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-supersig-rpc"
+version = "0.1.0"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
+dependencies = [
+ "jsonrpsee",
+ "pallet-supersig",
+ "pallet-supersig-rpc-runtime-api",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-api",
+ "sp-blockchain",
+ "sp-std",
+]
+
+[[package]]
 name = "pallet-supersig-rpc-runtime-api"
 version = "0.1.0"
-source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.24#ea7d981a1b6dfd91fc867475650f0350fb2967f7"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
 dependencies = [
  "pallet-supersig",
  "parity-scale-codec",
