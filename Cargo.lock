@@ -687,14 +687,15 @@ dependencies = [
 
 [[package]]
 name = "chrono"
-version = "0.4.19"
+version = "0.4.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
+checksum = "6127248204b9aba09a362f6c930ef6a78f2c1b2215f8a7b398c06e1083f17af0"
 dependencies = [
- "libc",
+ "js-sys",
  "num-integer",
  "num-traits",
  "time",
+ "wasm-bindgen",
  "winapi",
 ]
 
@@ -2604,9 +2605,9 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
 
 [[package]]
 name = "libc"
-version = "0.2.126"
+version = "0.2.127"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "349d5a591cd28b49e1d1037471617a32ddcda5731b99419008085f72d5a53836"
+checksum = "505e71a4706fa491e9b1b55f51b95d4037d0821ee40131190475f692b35b009b"
 
 [[package]]
 name = "libloading"
@@ -4050,7 +4051,7 @@ dependencies = [
 [[package]]
 name = "pallet-supersig"
 version = "1.1.0"
-source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#b1d9132ec7aed93b2ef1591aa7c5af326b3b8e56"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4066,7 +4067,7 @@ dependencies = [
 [[package]]
 name = "pallet-supersig-rpc"
 version = "0.1.0"
-source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#b1d9132ec7aed93b2ef1591aa7c5af326b3b8e56"
 dependencies = [
  "jsonrpsee",
  "pallet-supersig",
@@ -4081,7 +4082,7 @@ dependencies = [
 [[package]]
 name = "pallet-supersig-rpc-runtime-api"
 version = "0.1.0"
-source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#7485da5357b756b6119d181c9543df4cd72bee6b"
+source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=robin/add-rpc-calls#b1d9132ec7aed93b2ef1591aa7c5af326b3b8e56"
 dependencies = [
  "pallet-supersig",
  "parity-scale-codec",
@@ -8426,9 +8427,9 @@ dependencies = [
 
 [[package]]
 name = "yamux"
-version = "0.10.1"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0c0608f53c1dc0bad505d03a34bbd49fbf2ad7b51eb036123e896365532745a1"
+checksum = "e5d9ba232399af1783a58d8eb26f6b5006fbefe2dc9ef36bd283324792d03ea5"
 dependencies = [
  "futures",
  "log",
