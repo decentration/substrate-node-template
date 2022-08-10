@@ -248,7 +248,7 @@ _Funded by Web3 foundation and Edgeware_
 
 
 
-# Supersig Pallet
+# [Supersig Pallet](https://github.com/kabocha-network/pallet_supersig)
 
 The supersig pallet extends the capabilities of a multisig so it can be fit for governance of
 larger funds. It is a superset of the multisig pallet, adding multiple functionalities and
