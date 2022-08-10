@@ -6,10 +6,10 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use pallet_supersig::PalletId;
 use pallet_grandpa::{
 	fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList,
 };
+use pallet_supersig::PalletId;
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
@@ -23,6 +23,8 @@ use sp_std::prelude::*;
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
+
+use pallet_supersig::{rpc::ProposalState, CallId, Role, SupersigId};
 
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
@@ -202,23 +204,19 @@ impl frame_system::Config for Runtime {
 parameter_types! {
 	pub const SupersigPalletId: PalletId = PalletId(*b"id/susig");
 	//pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
-    pub const SupersigDepositPerByte: Balance = 1;
-    pub const SupersigMaxAccountsPerTransaction: u32 = 10;
+	pub const SupersigDepositPerByte: Balance = 1;
+	pub const SupersigMaxAccountsPerTransaction: u32 = 10;
 }
 
 impl pallet_supersig::Config for Runtime {
 	type Event = Event;
-    type Currency = Balances;
+	type Currency = Balances;
 	type PalletId = SupersigPalletId;
-    type Call = Call;
-	//type PreimageByteDeposit = SupersigPreimageByteDeposit;
-    type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
+	type Call = Call;
+	type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
 	type DepositPerByte = SupersigDepositPerByte;
 	type MaxAccountsPerTransaction = SupersigMaxAccountsPerTransaction;
-
 }
-
-
 
 impl pallet_randomness_collective_flip::Config for Runtime {}
 
@@ -489,10 +487,21 @@ impl_runtime_apis! {
 	}
 
 	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
-		fn get_account_supersigs(who: AccountId) -> Vec<u128> {
-			Supersig::get_account_supersigs(who)
+		fn get_supersig_id(supersig_account: AccountId) -> Option<SupersigId> {
+			Supersig::get_supersig_id(&supersig_account).ok()
 		}
-	
+		fn get_user_supersigs(who: AccountId) -> Vec<SupersigId> {
+			Supersig::get_user_supersigs(&who)
+		}
+		fn list_members(supersig_id: SupersigId) -> Vec<(AccountId, Role)>{
+			Supersig::list_members(&supersig_id)
+		}
+		fn list_proposals(supersig_id: SupersigId) -> (Vec<ProposalState<AccountId>>, u32) {
+			Supersig::list_proposals(&supersig_id)
+		}
+		fn get_proposal_state(supersig_id: SupersigId, call_id: CallId) -> Option<(ProposalState<AccountId>, u32)> {
+			Supersig::get_proposal_state(&supersig_id, &call_id)
+		}
 	}
 
 	#[cfg(feature = "runtime-benchmarks")]
