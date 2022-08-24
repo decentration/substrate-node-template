@@ -147,7 +147,7 @@ Supersig members need to vote in order to accept Dave as a member.
 ![AddMember](./screenshots/ApproveCallNewId.png)
 _Dont't forget to add the correct callId when voting for the call._
 
-![CallExecutedDave](./screenshots/CallExecutedDave.png)
+![CallExecutionDave](./screenshots/CallExecutionDave.png)
 _...Alice and Bob vote and Dave is now a member of the Supersig._ 
 
 
@@ -180,22 +180,26 @@ use cURL to make rpc calls.
 
 
 - `superSig_getSupersigId` 
- - Get the SupersigId (nonce) of the supersig by providing your AccountId.
- - Parameter(s): `supersig_account: AccountId`
+  - Get the SupersigId (nonce) of the supersig by providing your AccountId.
+  - Parameter(s): `supersig_account: AccountId`
 - `superSig_getUserSupersigs` 
- - Find what supersigs your associated to.
- - Parameter(s):`who: AccountId` the AccountId you'd like to check
+  - Find what supersigs your associated to.
+  - Parameter(s):`who: AccountId` the AccountId you'd like to check
 - `superSig_listMembers`
- - Get list of members related to supersig. 
- - Parameter(s): `SupersigId` (nonce)
+  - Get list of members related to supersig. 
+  - Parameter(s): `SupersigId` (nonce)
 - `superSig_listProposals`
- - Get list of proposals (calls) connected to a supersig. 
- - Parameter(s): `SupersigId` (nonce)
+  - Get list of proposals (calls) connected to a supersig. 
+  - Parameter(s): `SupersigId` (nonce)
 - `superSig_getProposalState`
- - Get the state of votes after youve submitted a call for voting. 
- - Parameter(s): `SupersigId` (nonce)
+  - Get the state of votes after youve submitted a call for voting. 
+  - Parameter(s): `SupersigId` (nonce)
 
-### List Members
+### Example
+
+**List Members**
+
+`superSig_listMembers`
 
 From our example we make a jsonrpc call through cURL, (assuming that your chain is running on port 9933).
 
@@ -209,10 +213,10 @@ Result:
 {
   "jsonrpc":"2.0","result":
   [
-    ["5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY","Standard"], //Alice["5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty","Standard"], //Bob["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y","Standard"]  //Charlie
+    ["5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY","Standard"], ["5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty","Standard"], ["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y","Standard"]  //Charlie
   ],
   "id":1
-}
+} //Alice, Bob and Charlie's accounts related to Supersig[0]
 ```
 
 
