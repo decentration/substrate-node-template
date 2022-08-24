@@ -151,7 +151,16 @@ _Dont't forget to add the correct callId when voting for the call._
 _...Alice and Bob vote and Dave is now a member of the Supersig._ 
 
 
-**Get Information about your Supersig**
+## Get Information about your Supersig
+
+**Find your AccountNonce from your AccountId**
+
+Go to `Developer > Runtime Calls > accountNonceApi > accountNonce(accountId)`
+
+![AccountNonce](./screenshots/AccountNonce.png)
+_select your AccountId to get your AccountNonce_
+
+Your AccountNonce is the number of your Supersig that is used to represent your supersig. Here we find the nonce is `0`.
 
 In our exmaple, there are now 4 members in the Supersig, 3 `Standard` members, and 1 `Master` member. But if we lose track of this let's check from the chain state. 
 
@@ -163,6 +172,48 @@ Go to `Developer > chain state > supersig > members(u128, AccountId32): PalletSu
 - For the second parameter `Option<AccountId32>` untick the box so that we can get a list of all the `Members` of the selected supersig.
 - As we can see from the screenshot there are 4 accounts, each with their Member type (standard or master). 
 
+
+# RPC
+## cURL
+
+use cURL to make rpc calls. 
+
+
+- `superSig_getSupersigId` 
+ - Get the SupersigId (nonce) of the supersig by providing your AccountId.
+ - Parameter(s): `supersig_account: AccountId`
+- `superSig_getUserSupersigs` 
+ - Find what supersigs your associated to.
+ - Parameter(s):`who: AccountId` the AccountId you'd like to check
+- `superSig_listMembers`
+ - Get list of members related to supersig. 
+ - Parameter(s): `SupersigId` (nonce)
+- `superSig_listProposals`
+ - Get list of proposals (calls) connected to a supersig. 
+ - Parameter(s): `SupersigId` (nonce)
+- `superSig_getProposalState`
+ - Get the state of votes after youve submitted a call for voting. 
+ - Parameter(s): `SupersigId` (nonce)
+
+### List Members
+
+From our example we make a jsonrpc call through cURL, (assuming that your chain is running on port 9933).
+
+```bash
+curl -sS -H "Content-Type: application/json" -d '{"id":1, "jsonrpc":"2.0", "method": "superSig_listMembers", "params": [0]}' http://localhost:9933/
+```
+
+Result:
+
+```json
+{
+  "jsonrpc":"2.0","result":
+  [
+    ["5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY","Standard"], //Alice["5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty","Standard"], //Bob["5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y","Standard"]  //Charlie
+  ],
+  "id":1
+}
+```
 
 
 [![Try on playground](https://img.shields.io/badge/Playground-Node_Template-brightgreen?logo=Parity%20Substrate)](https://docs.substrate.io/playground/) [![Matrix](https://img.shields.io/matrix/substrate-technical:matrix.org)](https://matrix.to/#/#substrate-technical:matrix.org)
