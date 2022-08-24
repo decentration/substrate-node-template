@@ -15,9 +15,7 @@ _Funded by Web3 foundation and Edgeware_
 # Supersig Pallet 
 
 The supersig pallet extends the capabilities of a multisig so it can be fit for governance of
-larger funds. It is a superset of the multisig pallet, adding multiple functionalities and
-options to the original multi-signature dispatch allowing multiple signed origins (accounts) to
-coordinate and dispatch a call from the supersig account
+larger funds. With a supersig you can make group decisions on a share account, add and remove members, and have a simpleMajority threshold.
 
 Note: the multisig addresses won’t change even though the members can be added, removed, or can
 leave themselves
@@ -26,13 +24,13 @@ leave themselves
 
 The Supersig pallet provide function for:
 
-- Creating a supersig
-- Adding and removing members
-- Leaving the supersig
-- Submit transaction to a supersig
-- Vote for the transaction
-- Remove a pending transaction
-- Delete a supersig
+- Creating a supersig,
+- Adding and removing members,
+- Leaving the supersig,
+- Submit transaction to a supersig,
+- Vote for the transaction,
+- Remove a pending transaction,
+- Delete a supersig,
 
 
 ### Dispatchable Functions
@@ -73,16 +71,16 @@ The Supersig pallet provide function for:
 - Then go to view your node from Polkadot JS Apps development > local node https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/addresses
 
 
-# Supersig Tutorial
+## Supersig Tutorial
 
-## Create a supersig account
+### Create a supersig account
 
 Go to `Developer > Extrinsics > supersig > createSupersig(members)`
 
 ![createSupersig](./screenshots/createSupersig.png)
 _Notice how if you are the creator of the supersig, you must also add yourself as a member._ 
 
-## Save Supersig Address (and fund it)
+### Save Supersig Address (and fund it)
 
 ![SupersigCreated](./screenshots/SupersigCreated.png)
 _Copy the address from event logs and add it as a contact in your address book._
@@ -91,7 +89,7 @@ _Copy the address from event logs and add it as a contact in your address book._
 - Fund the supersig account from any account that has funds. 
 
 
-## Make a call from your Supersig
+### Make a call from your Supersig
 
 Now that your supersig is funded and has members, you can create a call that needs a simpleMajority to be executed.
 
@@ -100,7 +98,7 @@ Go to `Developer > Extrinsics > supersig > submitCall(supersigAccount, call)`
 ![submitCall](./screenshots/submitCall.png)
 _create a call from any funded account. In this example we submit a call to send balance transfer of 500 to Ferdie. Reminder that you need to add the amount plus the number of decimals for your blockchain, in this case 12 zeroes._
 
-## Members vote/sign transactions
+### Members vote/sign transactions
 
 Go to `Developer > Extrinsics > supersig > approveCall(supersigAccount, callId)`
 
@@ -120,7 +118,7 @@ _Alice has voted on Call with nonce of `0`. Now we just need one of the 2 other 
 _Bob voted and then the simpleMajority threshold was reached and the Call was executed. Ferdie now receives his balance of 500._
 
 
-## Add/remove members
+### Add/remove members
 
 Go to `Developer > Extrinsics > supersig > addMembers(newMembers)`
 
@@ -151,7 +149,7 @@ _Dont't forget to add the correct callId when voting for the call._
 _...Alice and Bob vote and Dave is now a member of the Supersig._ 
 
 
-## Get Information about your Supersig
+### Get Information about your Supersig
 
 **Find your AccountNonce from your AccountId**
 
@@ -173,8 +171,8 @@ Go to `Developer > chain state > supersig > members(u128, AccountId32): PalletSu
 - As we can see from the screenshot there are 4 accounts, each with their Member type (standard or master). 
 
 
-# RPC
-## cURL
+## RPC
+### cURL
 
 use cURL to make rpc calls. 
 
