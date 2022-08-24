@@ -1,6 +1,6 @@
 # Substrate Node Template (with Supersig)
 
-This node template is hooked up with Supersig so you can try it out. However if you want to look at the pallet-supersig code you can find it [here](https://github.com/kabocha-network/pallet-supersig).
+This node template is hooked up with Supersig so you can try it out. However if you want to look at the pallet-supersig code you can find it [here](https://github.com/kabocha-network/pallet_supersig).
 
 [![Try on playground](https://img.shields.io/badge/Playground-Node_Template-brightgreen?logo=Parity%20Substrate)](https://docs.substrate.io/playground/) [![Matrix](https://img.shields.io/matrix/substrate-technical:matrix.org)](https://matrix.to/#/#substrate-technical:matrix.org)
 
