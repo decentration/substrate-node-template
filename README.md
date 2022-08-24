@@ -2,7 +2,6 @@
 
 This node template is hooked up with Supersig so you can try it out. However if you want to look at the pallet-supersig code you can find it [here](https://github.com/kabocha-network/pallet-supersig).
 
-# Node Template containing Pallet Supersig 
 
 <h1 align="center">
   <a href="https://www.kabocha.network/">  <img src="https://avatars.githubusercontent.com/u/91527332?s=200&v=4" alt="Kabocha"></a>
