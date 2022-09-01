@@ -1,5 +1,5 @@
 # This is the build stage for substrate. Here we create the binary in a temporary image.
-FROM docker.io/paritytech/ci-linux:production as builder
+FROM paritytech/ci-linux:production as builder
 
 WORKDIR /substrate
 COPY . /substrate
@@ -17,7 +17,7 @@ LABEL description="Multistage Docker image for substrate: a platform for web3" \
 	io.parity.image.source="https://github.com/paritytech/substrate/blob/${VCS_REF}/scripts/ci/dockerfiles/substrate/substrate_builder.Dockerfile" \
 	io.parity.image.documentation="https://github.com/paritytech/substrate/"
 
-COPY --from=builder /substrate/target/release/substrate /usr/local/bin
+COPY --from=builder /substrate/target/release/node-template /usr/local/bin
 
 RUN useradd -m -u 1000 -U -s /bin/sh -d /substrate substrate && \
 	mkdir -p /data /substrate/.local/share && \

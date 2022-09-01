@@ -9,7 +9,10 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 use pallet_grandpa::{
 	fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList,
 };
-use pallet_supersig::PalletId;
+use pallet_supersig::{ CallId, Role, SupersigId, PalletId};
+use pallet_supersig::rpc::ProposalState;
+use sp_runtime::DispatchError;
+
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
@@ -24,7 +27,7 @@ use sp_std::prelude::*;
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 
-use pallet_supersig::{rpc::ProposalState, CallId, Role, SupersigId};
+
 
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
@@ -92,8 +95,8 @@ pub mod opaque {
 	}
 }
 
-// To learn more about runtime versioning and what each of the following value means:
-//   https://docs.substrate.io/v3/runtime/upgrades#runtime-versioning
+// To learn more about runtime versioning, see:
+// https://docs.substrate.io/main-docs/build/upgrade#runtime-versioning
 #[sp_version::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("node-template"),
@@ -254,6 +257,9 @@ impl pallet_timestamp::Config for Runtime {
 	type WeightInfo = ();
 }
 
+/// Existential deposit.
+pub const EXISTENTIAL_DEPOSIT: u128 = 500;
+
 impl pallet_balances::Config for Runtime {
 	type MaxLocks = ConstU32<50>;
 	type MaxReserves = ();
@@ -263,12 +269,13 @@ impl pallet_balances::Config for Runtime {
 	/// The ubiquitous event type.
 	type Event = Event;
 	type DustRemoval = ();
-	type ExistentialDeposit = ConstU128<500>;
+	type ExistentialDeposit = ConstU128<EXISTENTIAL_DEPOSIT>;
 	type AccountStore = System;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
 
 impl pallet_transaction_payment::Config for Runtime {
+	type Event = Event;
 	type OnChargeTransaction = CurrencyAdapter<Balances, ()>;
 	type OperationalFeeMultiplier = ConstU8<5>;
 	type WeightToFee = IdentityFee<Balance>;
@@ -288,10 +295,11 @@ impl pallet_sudo::Config for Runtime {
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
-	pub enum Runtime where
+	pub struct Runtime
+	where
 		Block = Block,
 		NodeBlock = opaque::Block,
-		UncheckedExtrinsic = UncheckedExtrinsic
+		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
 		System: frame_system,
 		RandomnessCollectiveFlip: pallet_randomness_collective_flip,
@@ -470,38 +478,38 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<Block, Balance> for Runtime {
-		fn query_info(
-			uxt: <Block as BlockT>::Extrinsic,
+	impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentCallApi<Block, Balance, Call> for Runtime {
+
+		fn query_call_info(
+			call: Call,
 			len: u32,
-		) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
-			TransactionPayment::query_info(uxt, len)
+		) -> pallet_transaction_payment::RuntimeDispatchInfo<Balance> {
+			TransactionPayment::query_call_info(call, len)
 		}
-		fn query_fee_details(
-			uxt: <Block as BlockT>::Extrinsic,
+
+		fn query_call_fee_details(
+			call: Call,
 			len: u32,
 		) -> pallet_transaction_payment::FeeDetails<Balance> {
-			TransactionPayment::query_fee_details(uxt, len)
+			TransactionPayment::query_call_fee_details(call, len)
 		}
 	}
 
 	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
-		fn get_supersig_id(supersig_account: AccountId) -> Option<SupersigId> {
-			Supersig::get_supersig_id(&supersig_account).ok()
-		}
-		fn get_user_supersigs(who: AccountId) -> Vec<SupersigId> {
-			Supersig::get_user_supersigs(&who)
-		}
-		fn list_members(supersig_id: SupersigId) -> Vec<(AccountId, Role)>{
-			Supersig::list_members(&supersig_id)
-		}
-		fn list_proposals(supersig_id: SupersigId) -> (Vec<ProposalState<AccountId>>, u32) {
-			Supersig::list_proposals(&supersig_id)
-		}
-		fn get_proposal_state(supersig_id: SupersigId, call_id: CallId) -> Option<(ProposalState<AccountId>, u32)> {
-			Supersig::get_proposal_state(&supersig_id, &call_id)
-		}
-	}
+        fn get_user_supersigs(user_account: AccountId) -> Vec<SupersigId> {
+            Supersig::get_user_supersigs(&user_account)
+        }
+        fn list_members(supersig_id: AccountId) -> Result<Vec<(AccountId, Role)>, DispatchError> {
+            Supersig::list_members(&supersig_id)
+        }
+        fn list_proposals(supersig_id: AccountId) -> Result<(Vec<ProposalState<AccountId>>, u32), DispatchError> {
+            Supersig::list_proposals(&supersig_id)
+        }
+        fn get_proposal_state(supersig_id: AccountId, call_id: CallId) -> Result<(ProposalState<AccountId>, u32), DispatchError> {
+            Supersig::get_proposal_state(&supersig_id, &call_id)
+        }
+    }
+	
 
 	#[cfg(feature = "runtime-benchmarks")]
 	impl frame_benchmarking::Benchmark<Block> for Runtime {

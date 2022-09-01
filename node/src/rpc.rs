@@ -15,6 +15,7 @@ use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
 
 pub use sc_rpc_api::DenyUnsafe;
+pub use pallet_supersig_rpc_runtime_api::SuperSigApi as SuperSigRuntimeApi;
 
 /// Full client dependencies.
 pub struct FullDeps<C, P> {
