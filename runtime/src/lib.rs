@@ -16,12 +16,14 @@ use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys,
 	traits::{AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, NumberFor, Verify},
 	transaction_validity::{TransactionSource, TransactionValidity},
-	ApplyExtrinsicResult, MultiSignature,
+	ApplyExtrinsicResult, DispatchError, MultiSignature,
 };
 use sp_std::prelude::*;
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
+
+use pallet_supersig::{rpc::ProposalState, CallId, PalletId, Role, SupersigId};
 
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
@@ -198,6 +200,22 @@ impl frame_system::Config for Runtime {
 	type MaxConsumers = frame_support::traits::ConstU32<16>;
 }
 
+parameter_types! {
+	pub const SupersigPalletId: PalletId = PalletId(*b"id/susig");
+	pub const SupersigDepositPerByte: Balance = 1;
+	pub const SupersigMaxAccountsPerTransaction: u32 = 10;
+}
+
+impl pallet_supersig::Config for Runtime {
+	type Event = Event;
+	type Currency = Balances;
+	type PalletId = SupersigPalletId;
+	type Call = Call;
+	type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
+	type DepositPerByte = SupersigDepositPerByte;
+	type MaxAccountsPerTransaction = SupersigMaxAccountsPerTransaction;
+}
+
 impl pallet_randomness_collective_flip::Config for Runtime {}
 
 impl pallet_aura::Config for Runtime {
@@ -288,6 +306,7 @@ construct_runtime!(
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
+		Supersig: pallet_supersig,
 	}
 );
 
@@ -481,6 +500,21 @@ impl_runtime_apis! {
 			len: u32,
 		) -> pallet_transaction_payment::FeeDetails<Balance> {
 			TransactionPayment::query_call_fee_details(call, len)
+		}
+	}
+
+	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
+		fn get_user_supersigs(user_account: AccountId) -> Vec<SupersigId> {
+			Supersig::get_user_supersigs(&user_account)
+		}
+		fn list_members(supersig_id: AccountId) -> Result<Vec<(AccountId, Role)>, DispatchError> {
+			Supersig::list_members(&supersig_id)
+		}
+		fn list_proposals(supersig_id: AccountId) -> Result<(Vec<ProposalState<AccountId>>, u32), DispatchError> {
+			Supersig::list_proposals(&supersig_id)
+		}
+		fn get_proposal_state(supersig_id: AccountId, call_id: CallId) -> Result<(ProposalState<AccountId>, u32), DispatchError> {
+			Supersig::get_proposal_state(&supersig_id, &call_id)
 		}
 	}
 
