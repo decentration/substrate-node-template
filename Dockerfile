@@ -1,3 +1,13 @@
+# This is the build stage for substrate. Here we create the binary in a temporary image.
+FROM paritytech/ci-linux:production as builder
+
+WORKDIR /substrate
+COPY . /substrate
+
+
+RUN cargo build --release
+
+# This is the 2nd stage: a very small image where we copy the substrate binary."
 FROM docker.io/library/ubuntu:20.04
 
 LABEL description="Multistage Docker image for substrate: a platform for web3" \
