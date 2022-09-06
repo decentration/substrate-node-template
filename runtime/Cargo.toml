@@ -56,8 +56,8 @@ hex-literal = { version = "0.3.4", optional = true }
 pallet-template = { version = "4.0.0-dev", default-features = false, path = "../pallets/template" }
 
 # Pallet Supersig
-pallet-supersig = { path = "../../pallet_supersig", default-features = false }
-pallet-supersig-rpc-runtime-api = { path = "../../pallet_supersig/rpc/runtime-api", default-features = false }
+pallet-supersig = { git = "https://github.com/kabocha-network/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.28"}
+pallet-supersig-rpc-runtime-api = { git = "https://github.com/kabocha-network/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.28"}
 
 
 [build-dependencies]
