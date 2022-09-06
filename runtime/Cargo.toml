@@ -27,7 +27,7 @@ pallet-grandpa = { version = "4.0.0-dev", default-features = false, git = "https
 pallet-randomness-collective-flip = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 pallet-sudo = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 frame-system = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
-frame-try-runtime = { version = "0.10.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", optional = true , branch = "polkadot-v0.9.28" }
+frame-try-runtime = { version = "0.10.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", optional = true, branch = "polkadot-v0.9.28" }
 pallet-timestamp = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 pallet-transaction-payment = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 frame-executive = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
@@ -58,6 +58,11 @@ hex-literal = { version = "0.3.4", optional = true }
 ## Pallet Supersig
 pallet-supersig = { git = "https://github.com/kabocha-network/pallet_supersig", branch = "polkadot-v0.9.28", default-features = false }
 pallet-supersig-rpc-runtime-api = { git = "https://github.com/kabocha-network/pallet_supersig.git", branch = "polkadot-v0.9.28", default-features = false}
+
+# Pallet Supersig
+pallet-supersig = { git = "https://github.com/kabocha-network/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.28" }
+pallet-supersig-rpc-runtime-api = { git = "https://github.com/kabocha-network/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.28" }
+
 
 [build-dependencies]
 substrate-wasm-builder = { version = "5.0.0-dev", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }

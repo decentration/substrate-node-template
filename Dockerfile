@@ -11,13 +11,13 @@ FROM docker.io/library/ubuntu:20.04
 
 LABEL description="Multistage Docker image for substrate: a platform for web3" \
 	io.parity.image.type="builder" \
-	io.parity.image.authors="chevdor@gmail.com, devops-team@parity.io, ramsey@decentration.org" \
-	io.parity.image.vendor="Decentration working with Parity Technologes substrate framework" \
-	io.parity.image.description="substrate: a framework for web3" \
-	io.parity.image.source="https://github.com/paritytech/substrate/blob/${VCS_REF}/scripts/ci/dockerfiles/substrate/substrate_builder.Dockerfile" \
-	io.parity.image.documentation="https://github.com/paritytech/substrate/"
+	io.parity.image.authors="chevdor@gmail.com, devops-team@parity.io" \
+	io.parity.image.vendor="Parity Technologies" \
+	io.parity.image.description="substrate: a platform for web3" \
+	io.parity.image.source="https://github.com/paritytech/polkadot/blob/${VCS_REF}/scripts/ci/dockerfiles/polkadot/polkadot_builder.Dockerfile" \
+	io.parity.image.documentation="https://github.com/paritytech/polkadot/"
 
-COPY --from=builder /substrate/target/release/node-template /usr/local/bin
+COPY --from=builder /substrate/target/release/ /usr/local/bin
 
 RUN useradd -m -u 1000 -U -s /bin/sh -d /substrate substrate && \
 	mkdir -p /data /substrate/.local/share && \
@@ -26,11 +26,11 @@ RUN useradd -m -u 1000 -U -s /bin/sh -d /substrate substrate && \
 # unclutter and minimize the attack surface
 	rm -rf /usr/bin /usr/sbin && \
 # check if executable works in this container
-	/usr/local/bin/substrate --version
+	/usr/local/bin/node-template --version
 
 USER substrate
 
 EXPOSE 30333 9933 9944 9615
 VOLUME ["/data"]
 
-ENTRYPOINT ["/usr/local/bin/substrate"]
+ENTRYPOINT ["/usr/local/bin/node-template"]
