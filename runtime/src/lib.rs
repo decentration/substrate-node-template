@@ -130,6 +130,9 @@ pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
+pub const MILLIUNIT: Balance = 1_000_000_000;
+pub const EXISTENTIAL_DEPOSIT: Balance =  MILLIUNIT;
+
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
 pub fn native_version() -> NativeVersion {
@@ -260,6 +263,8 @@ impl pallet_timestamp::Config for Runtime {
 	type WeightInfo = ();
 }
 
+
+
 impl pallet_balances::Config for Runtime {
 	type MaxLocks = ConstU32<50>;
 	type MaxReserves = ();
@@ -269,7 +274,7 @@ impl pallet_balances::Config for Runtime {
 	/// The ubiquitous event type.
 	type Event = Event;
 	type DustRemoval = ();
-	type ExistentialDeposit = ConstU128<500>;
+	type ExistentialDeposit = ConstU128<50>;
 	type AccountStore = System;
 	type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
 }
@@ -280,6 +285,8 @@ impl pallet_transaction_payment::Config for Runtime {
 	type WeightToFee = IdentityFee<Balance>;
 	type LengthToFee = IdentityFee<Balance>;
 	type FeeMultiplierUpdate = ();
+	type Event = Event;
+	
 }
 
 impl pallet_sudo::Config for Runtime {
@@ -491,13 +498,22 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
-		fn get_account_supersigs(who: AccountId) -> Vec<u128> {
-			Supersig::get_account_supersigs(who)
+	impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentCallApi<Block, Balance, Call>
+		for Runtime
+	{
+		fn query_call_info(
+			call: Call,
+			len: u32,
+		) -> pallet_transaction_payment::RuntimeDispatchInfo<Balance> {
+			TransactionPayment::query_call_info(call, len)
 		}
-	
+		fn query_call_fee_details(
+			call: Call,
+			len: u32,
+		) -> pallet_transaction_payment::FeeDetails<Balance> {
+			TransactionPayment::query_call_fee_details(call, len)
+		}
 	}
-
 
 	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
         fn get_user_supersigs(user_account: AccountId) -> Vec<SupersigId> {
