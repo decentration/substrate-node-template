@@ -210,6 +210,12 @@ First, install [Docker](https://docs.docker.com/get-docker/) and
 
 Then run the following command to start a single node development chain.
 
+```
+docker run -p 9944:9944 -p 30333:30333 -p 9933:9933 -p 9615:9615  docker.io/decentration/supersig-node:latest --dev --port 30333 --ws-port 9944 --rpc-port 9933
+```
+
+Or
+
 ```bash
 ./scripts/docker_run.sh
 ```
