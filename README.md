@@ -209,7 +209,7 @@ A FRAME pallet is compromised of a number of blockchain primitives:
 To run the supersig-template as it is directly from dockerhub, then all you need to do is run this command:
 
 ```
-docker run -p 9944:9944 -p 30333:30333 -p 9933:9933 -p 9615:9615  docker.io/decentration/supersig-node:latest --dev --port 30333 --ws-port 9944 --rpc-port 9933
+docker run -p 9944:9944 -p 30333:30333 -p 9933:9933 -p 9615:9615 docker.io/decentration/supersig-node:latest --dev --port 30333 --ws-port 9944 --rpc-port 9933 --unsafe-ws-external --rpc-cors all
 ```
 
 The above command will run a single development chain that can connect to polkadot js apps as a local node.
