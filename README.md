@@ -205,16 +205,21 @@ A FRAME pallet is compromised of a number of blockchain primitives:
 
 ### Run in Docker
 
-First, install [Docker](https://docs.docker.com/get-docker/) and
-[Docker Compose](https://docs.docker.com/compose/install/).
-
-Then run the following command to start a single node development chain.
+**Run supersig node-template with one command**
+To run the supersig-template as it is directly from dockerhub, then all you need to do is run this command:
 
 ```
 docker run -p 9944:9944 -p 30333:30333 -p 9933:9933 -p 9615:9615  docker.io/decentration/supersig-node:latest --dev --port 30333 --ws-port 9944 --rpc-port 9933
 ```
 
-Or
+The above command will run a single development chain that can connect to polkadot js apps as a local node.
+
+
+**Make local changes and create your own Docker image**
+If you want to local changes to the supersig-template and make an updated docker image then you need to do the below steps:
+
+First, install [Docker](https://docs.docker.com/get-docker/) and
+[Docker Compose](https://docs.docker.com/compose/install/).
 
 ```bash
 ./scripts/docker_run.sh
@@ -223,7 +228,7 @@ Or
 This command will firstly compile your code, and then start a local development network. You can
 also replace the default command
 (`cargo build --release && ./target/release/node-template --dev --ws-external`)
-by appending your own. A few useful ones are as follow.
+by appending your own. A few useful ones are as follows.
 
 ```bash
 # Run Substrate node without re-compiling
@@ -235,3 +240,7 @@ by appending your own. A few useful ones are as follow.
 # Check whether the code is compilable
 ./scripts/docker_run.sh cargo check
 ```
+
+**Docker Issues for Mac M1/M2**
+
+If you are having problems with Apple Mac M1/M2, specifically with connecting to polkadot-js/apps local node, then that is because there is a known issue on the docker [forum](https://forums.docker.com/t/port-forward-not-working-on-a-macos-installation-but-works-on-others/77401/6). If you find a fix please do share it on the open substrate stack exchange [issue](https://substrate.stackexchange.com/questions/4931/docker-container-p-99449944-running-node-template-not-working-on-polkadot-js/4933?noredirect=1#comment4644_4933).
