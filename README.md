@@ -241,6 +241,6 @@ by appending your own. A few useful ones are as follows.
 ./scripts/docker_run.sh cargo check
 ```
 
-**Docker Issues for Mac M1/M2**
+**Docker Issues**
 
-If you are having problems with Apple Mac M1/M2, specifically with connecting to polkadot-js/apps local node, then that is because there is a known issue on the docker [forum](https://forums.docker.com/t/port-forward-not-working-on-a-macos-installation-but-works-on-others/77401/6). If you find a fix please do share it on the open substrate stack exchange [issue](https://substrate.stackexchange.com/questions/4931/docker-container-p-99449944-running-node-template-not-working-on-polkadot-js/4933?noredirect=1#comment4644_4933).
+If you are having problems with your Docker based local node working with Polkadot JS Apps, you might find a fix please do share it on the open substrate stack exchange [issue](https://substrate.stackexchange.com/questions/4931/docker-container-p-99449944-running-node-template-not-working-on-polkadot-js/4933?noredirect=1#comment4644_4933). There is also relevant issue on the Docker [forum](https://forums.docker.com/t/port-forward-not-working-on-a-macos-installation-but-works-on-others/77401/6)
