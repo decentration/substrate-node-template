@@ -1,37 +1,37 @@
-# This is the build stage for substrate. Here we create the binary in a temporary image.
-FROM paritytech/ci-linux:production as builder
+# This is an example build stage for the node template. Here we create the binary in a temporary image.
 
-WORKDIR /substrate
-COPY . /substrate
+# This is a base image to build substrate nodes
+FROM docker.io/paritytech/ci-linux:production as builder
 
+WORKDIR /node-template
+COPY . .
+RUN cargo build --locked --release
 
-RUN cargo build --release
-
-# This is the 2nd stage: a very small image where we copy the substrate binary."
+# This is the 2nd stage: a very small image where we copy the binary."
 FROM docker.io/library/ubuntu:20.04
+LABEL description="Multistage Docker image for Substrate Node Template" \
+  image.type="builder" \
+  image.authors="you@email.com" \
+  image.vendor="Substrate Developer Hub" \
+  image.description="Multistage Docker image for Substrate Node Template" \
+  image.source="https://github.com/substrate-developer-hub/substrate-node-template" \
+  image.documentation="https://github.com/substrate-developer-hub/substrate-node-template"
 
-LABEL description="Multistage Docker image for substrate: a platform for web3" \
-	io.parity.image.type="builder" \
-	io.parity.image.authors="chevdor@gmail.com, devops-team@parity.io" \
-	io.parity.image.vendor="Parity Technologies" \
-	io.parity.image.description="substrate: a platform for web3" \
-	io.parity.image.source="https://github.com/paritytech/polkadot/blob/${VCS_REF}/scripts/ci/dockerfiles/polkadot/polkadot_builder.Dockerfile" \
-	io.parity.image.documentation="https://github.com/paritytech/polkadot/"
+# Copy the node binary.
+COPY --from=builder /node-template/target/release/node-template /usr/local/bin
 
-COPY --from=builder /substrate/target/release/ /usr/local/bin
+RUN useradd -m -u 1000 -U -s /bin/sh -d /node-dev node-dev && \
+  mkdir -p /chain-data /node-dev/.local/share && \
+  chown -R node-dev:node-dev /chain-data && \
+  ln -s /chain-data /node-dev/.local/share/node-template && \
+  # unclutter and minimize the attack surface
+  rm -rf /usr/bin /usr/sbin && \
+  # check if executable works in this container
+  /usr/local/bin/node-template --version
 
-RUN useradd -m -u 1000 -U -s /bin/sh -d /substrate substrate && \
-	mkdir -p /data /substrate/.local/share && \
-	chown -R substrate:substrate /data && \
-	ln -s /data /substrate/.local/share/substrate && \
-# unclutter and minimize the attack surface
-	rm -rf /usr/bin /usr/sbin && \
-# check if executable works in this container
-	/usr/local/bin/node-template --version
-
-USER substrate
+USER node-dev
 
 EXPOSE 30333 9933 9944 9615
-VOLUME ["/data"]
+VOLUME ["/chain-data"]
 
 ENTRYPOINT ["/usr/local/bin/node-template"]
