@@ -1,0 +1,142 @@
+const api = await ApiPromise.create({
+  rpc: {
+    superSig: {
+      getProposalState: {
+        description: 'Get the proposal state',
+        params: [
+          {
+            name: 'supersig_id',
+            type: 'AccountId'
+          },
+          {
+            name: 'call_id',
+            type: 'CallId',
+            
+          }
+        ],
+        type: 'Result<(ProposalState<AccountId>, u32), DispatchError>'
+      },
+      get_user_supersigs: {
+        description: 'Get supersigs associated to the user.',
+        params: [
+            {
+            name: 'user_account',
+            type: 'AccountId'
+            },
+        ],
+        type: 'Vec<SupersigId>'
+      },
+      list_members: {
+        description: 'List members of the supersig',
+        params: [
+            {
+            name: 'supersig_id',
+            type: 'AccountId'
+            }
+        ],
+        type: 'Vec<(AccountId, Role)'
+      },
+      list_proposals: {
+        description: 'List proposals associated to a supersig',
+        params: [
+            {
+            name: 'supersig_id',
+            type: 'AccountId'
+            }
+        ],
+        type: 'Result<(Vec<ProposalState<AccountId>>, u32), DispatchError>'
+      },
+
+    
+    },
+    
+  },
+  ...
+});
+
+
+_getProposalState
+    superSig_getUserSupersigs
+    superSig_listMembers
+    superSig_listProposals
+
+
+impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
+    fn get_user_supersigs(user_account: AccountId) -> Vec<SupersigId> {
+        Supersig::get_user_supersigs(&user_account)
+    }
+    fn list_members(supersig_id: AccountId) -> Result<Vec<(AccountId, Role)>, DispatchError> {
+        Supersig::list_members(&supersig_id)
+    }
+    fn list_proposals(supersig_id: AccountId) -> Result<(Vec<ProposalState<AccountId>>, u32), DispatchError> {
+        Supersig::list_proposals(&supersig_id)
+    }
+    fn get_proposal_state(supersig_id: AccountId, call_id: CallId) -> Result<(ProposalState<AccountId>, u32), DispatchError> {
+        Supersig::get_proposal_state(&supersig_id, &call_id)
+    }
+
+
+    
+    
+// Copyright 2017-2022 @polkadot/types authors & contributors
+// SPDX-License-Identifier: Apache-2.0
+
+export const rpc = {
+    getBlock: {
+      description: 'Get header and body of a relay chain block',
+      params: [{
+        isHistoric: true,
+        isOptional: true,
+        name: 'hash',
+        type: 'BlockHash'
+      }],
+      type: 'SignedBlock'
+    },
+    getBlockHash: {
+      description: 'Get the block hash for a specific block',
+      params: [{
+        isOptional: true,
+        name: 'blockNumber',
+        type: 'BlockNumber'
+      }],
+      type: 'BlockHash'
+    },
+    getFinalizedHead: {
+      alias: ['chain_getFinalisedHead'],
+      description: 'Get hash of the last finalized block in the canon chain',
+      params: [],
+      type: 'BlockHash'
+    },
+    getHeader: {
+      alias: ['chain_getHead'],
+      description: 'Retrieves the header for a specific block',
+      params: [{
+        isHistoric: true,
+        isOptional: true,
+        name: 'hash',
+        type: 'BlockHash'
+      }],
+      type: 'Header'
+    },
+    subscribeAllHeads: {
+      description: 'Retrieves the newest header via subscription',
+      params: [],
+      pubsub: ['allHead', 'subscribeAllHeads', 'unsubscribeAllHeads'],
+      type: 'Header'
+    },
+    subscribeFinalizedHeads: {
+      alias: ['chain_subscribeFinalisedHeads', 'chain_unsubscribeFinalisedHeads'],
+      description: 'Retrieves the best finalized header via subscription',
+      params: [],
+      pubsub: ['finalizedHead', 'subscribeFinalizedHeads', 'unsubscribeFinalizedHeads'],
+      type: 'Header'
+    },
+    subscribeNewHeads: {
+      alias: ['chain_unsubscribeNewHeads', 'subscribe_newHead', 'unsubscribe_newHead'],
+      description: 'Retrieves the best header via subscription',
+      params: [],
+      // NOTE These still has the aliassed version, compatible with 1.x
+      pubsub: ['newHead', 'subscribeNewHead', 'unsubscribeNewHead'],
+      type: 'Header'
+    }
+  };
