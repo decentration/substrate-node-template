@@ -216,6 +216,10 @@ parameter_types! {
 	//pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
     pub const SupersigDepositPerByte: Balance = 1;
     pub const SupersigMaxAccountsPerTransaction: u32 = 10;
+	pub const MaxCallDataSize: u32 = 3;
+	pub const MaxCallsPerAccount: u32 = 1024;
+
+
 }
 
 impl pallet_supersig::Config for Runtime {
@@ -227,6 +231,8 @@ impl pallet_supersig::Config for Runtime {
     type WeightInfo = pallet_supersig::weights::SubstrateWeight<Runtime>;
 	type DepositPerByte = SupersigDepositPerByte;
 	type MaxAccountsPerTransaction = SupersigMaxAccountsPerTransaction;
+	type MaxCallDataSize = MaxCallDataSize;
+	type MaxCallsPerAccount = MaxCallsPerAccount;
 
 }
 

@@ -4459,8 +4459,8 @@ dependencies = [
  "pallet-grandpa",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
- "pallet-supersig",
- "pallet-supersig-rpc-runtime-api",
+ "pallet-supersig 1.1.1 (git+https://github.com/decentration/pallet_supersig.git?branch=polkadot-v0.9.37-fix-unbounded)",
+ "pallet-supersig-rpc-runtime-api 0.1.0 (git+https://github.com/decentration/pallet_supersig.git?branch=polkadot-v0.9.37-fix-unbounded)",
  "pallet-timestamp",
  "pallet-transaction-payment 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
  "pallet-transaction-payment-rpc-runtime-api 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
@@ -4810,13 +4810,27 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-supersig"
+version = "1.1.1"
+source = "git+https://github.com/decentration/pallet_supersig.git?branch=polkadot-v0.9.37-fix-unbounded#ab352fa646290525b45f552c012bf1553e6325e0"
+dependencies = [
+ "frame-support 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "frame-system 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-core 7.0.0 (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "sp-runtime 7.0.0 (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "sp-std 5.0.0 (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+]
+
+[[package]]
 name = "pallet-supersig-rpc"
 version = "0.1.1"
 source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.37#15c8adc06f946082b22a836a640a0fd34de3bb6c"
 dependencies = [
  "jsonrpsee 0.16.2",
- "pallet-supersig",
- "pallet-supersig-rpc-runtime-api",
+ "pallet-supersig 1.1.1 (git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.37)",
+ "pallet-supersig-rpc-runtime-api 0.1.0 (git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.37)",
  "parity-scale-codec",
  "scale-info",
  "sp-api 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
@@ -4829,7 +4843,20 @@ name = "pallet-supersig-rpc-runtime-api"
 version = "0.1.0"
 source = "git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.37#15c8adc06f946082b22a836a640a0fd34de3bb6c"
 dependencies = [
- "pallet-supersig",
+ "pallet-supersig 1.1.1 (git+https://github.com/kabocha-network/pallet_supersig.git?branch=polkadot-v0.9.37)",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-api 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "sp-runtime 7.0.0 (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+ "sp-std 5.0.0 (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
+]
+
+[[package]]
+name = "pallet-supersig-rpc-runtime-api"
+version = "0.1.0"
+source = "git+https://github.com/decentration/pallet_supersig.git?branch=polkadot-v0.9.37-fix-unbounded#ab352fa646290525b45f552c012bf1553e6325e0"
+dependencies = [
+ "pallet-supersig 1.1.1 (git+https://github.com/decentration/pallet_supersig.git?branch=polkadot-v0.9.37-fix-unbounded)",
  "parity-scale-codec",
  "scale-info",
  "sp-api 4.0.0-dev (git+https://github.com/paritytech/substrate.git?branch=polkadot-v0.9.37)",
