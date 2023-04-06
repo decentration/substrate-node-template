@@ -43,8 +43,10 @@ where
 		+ Sync
 		+ 'static,
 	C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi<Block, Balance>,
-	C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Nonce>,
+	C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Index>,
 	C::Api: BlockBuilder<Block>,
+	C::Api: pallet_supersig_rpc::SuperSigRuntimeApi<Block, AccountId>,
+
 	P: TransactionPool + Sync + Send + 'static,
 {
 
@@ -57,7 +59,7 @@ where
 
 	module.merge(System::new(client.clone(), pool.clone(), deny_unsafe).into_rpc())?;
 	module.merge(TransactionPayment::new(client.clone()).into_rpc())?;
-	module.merge(SuperSig::new(client).into_rpc())?;
+	module.merge(SuperSig::new(client.clone()).into_rpc())?;
 
 	// Extend this RPC with a custom API by using the following syntax.
 	// `YourRpcStruct` should have a reference to a client, which is needed
