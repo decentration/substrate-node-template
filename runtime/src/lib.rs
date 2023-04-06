@@ -10,7 +10,6 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 use pallet_supersig::{CallId, Role, SupersigId, PalletId};
 use pallet_supersig::rpc::ProposalState;
 use sp_runtime::DispatchError;
-use pallet_supersig_rpc_runtime_api::runtime_decl_for_SuperSigApi::SuperSigApi;
 
 use pallet_grandpa::{
 	fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList,
