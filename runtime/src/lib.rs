@@ -216,8 +216,8 @@ parameter_types! {
 	//pub const SupersigPreimageByteDeposit: Balance = 1 * CENTS;
     pub const SupersigDepositPerByte: Balance = 1;
     pub const SupersigMaxAccountsPerTransaction: u32 = 10;
-	pub const MaxCallDataSize: u32 = 3;
-	pub const MaxCallsPerAccount: u32 = 1024;
+	pub const MaxCallDataSize: u32 = 1024;
+	pub const MaxCallsPerAccount: u32 = 3;
 
 
 }

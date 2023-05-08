@@ -62,7 +62,7 @@ frame-benchmarking-cli = { version = "4.0.0-dev", git = "https://github.com/pari
 node-template-runtime = { version = "4.0.0-dev", path = "../runtime" }
 
 # Pallet Supersig
-pallet-supersig-rpc = { git = "https://github.com/decentration/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.37-fix-unbounded" }
+pallet-supersig-rpc = { git = "https://github.com/decentration/pallet_supersig.git", default-features = false, branch = "polkadot-v0.9.37" }
 
 # CLI-specific dependencies
 try-runtime-cli = { version = "0.10.0-dev", optional = true, git = "https://github.com/paritytech/substrate.git", "branch" = "polkadot-v0.9.37" }
