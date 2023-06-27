@@ -46,7 +46,6 @@ where
 	C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Index>,
 	C::Api: BlockBuilder<Block>,
 	C::Api: pallet_supersig_rpc::SuperSigRuntimeApi<Block, AccountId>,
-
 	P: TransactionPool + Sync + Send + 'static,
 {
 

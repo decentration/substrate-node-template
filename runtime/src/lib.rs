@@ -7,8 +7,7 @@
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
 
-use pallet_supersig::{CallId, Role, SupersigId, PalletId};
-use pallet_supersig::rpc::ProposalState;
+use pallet_supersig::{rpc::ProposalState, CallId, Role, SupersigId};
 use sp_runtime::DispatchError;
 
 use pallet_grandpa::{
@@ -41,6 +40,7 @@ pub use frame_support::{
 		IdentityFee, Weight,
 	},
 	StorageValue,
+	PalletId
 };
 pub use frame_system::Call as SystemCall;
 pub use pallet_balances::Call as BalancesCall;
@@ -531,9 +531,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> 
-		for Runtime 
-	{
+	impl pallet_supersig_rpc_runtime_api::SuperSigApi<Block, AccountId> for Runtime {
         fn get_user_supersigs(user_account: AccountId) -> Vec<SupersigId> {
             Supersig::get_user_supersigs(&user_account)
         }
