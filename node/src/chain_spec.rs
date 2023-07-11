@@ -41,7 +41,7 @@ pub fn development_config() -> Result<ChainSpec, String> {
 
 	Ok(ChainSpec::from_genesis(
 		// Name
-		"Development",
+		"kabocha-parachain",
 		// ID
 		"dev",
 		ChainType::Development,
@@ -81,7 +81,7 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 
 	Ok(ChainSpec::from_genesis(
 		// Name
-		"Local Testnet",
+		"kabocha-parachain",
 		// ID
 		"local_testnet",
 		ChainType::Local,
